@@ -1,18 +1,14 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
+  <v-app :dark="dark">
+    <v-toolbar dense app color="primary">
+      <v-toolbar-title class="headline">
+        <span v-html="'LAdmin'"></span>
+        <span class="px-2 font-weight-light">|</span>
         <span class="font-weight-light">MATERIAL DESIGN</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn @click="dark = !dark" icon>
+        <v-icon>mdi-invert-colors</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -28,8 +24,13 @@ export default {
   name: 'App',
   data () {
     return {
-      //
+      dark: false,
     }
   }
 }
 </script>
+<style>
+  html, body {
+    overflow: auto !important;
+  }
+</style>
