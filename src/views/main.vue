@@ -1,7 +1,7 @@
 <template>
   <v-app :dark="dark">
     <v-navigation-drawer
-      :class="dark? '':'blue-grey darken-4'"
+      :class="dark? 'grey darken-3':'blue-grey darken-4'"
       app
       dark
       fixed
@@ -14,6 +14,7 @@
           <span class="font-weight-light subheading white--text">MATERIAL DESIGN</span>
         </v-flex>
       </v-layout>
+      <v-divider></v-divider>
       <v-list
         dense
       >
@@ -53,7 +54,7 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :color="dark ? '':'white'" app dense>
+    <v-toolbar flat :color="dark ? '':'white'" app dense>
       <v-toolbar-side-icon @click="drawer = ! drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="headline">
         <v-flex class=" body-1">
@@ -77,62 +78,71 @@
       </v-tooltip>
     </v-toolbar>
     <v-content>
-      <v-layout>
-        <v-flex style="width: calc(100% - 64px)">
-          <v-tabs :color="dark ? 'grey darken-4':'grey lighten-3'" show-arrows v-model="tab">
-            <template v-for="(t, i) in tabItems">
-              <v-tab :class="tab === i ? dark ? 'grey darken-3':'grey lighten-4':''" :key="i">
-                <span class="pl-2">{{t.label}}</span>
-                <v-btn :disabled="tabItems.length === 1" @click.stop="tabItems.splice(i,1)" class="ml-3 mr-0" icon
-                       small>
-                  <v-icon clickable small>mdi-close</v-icon>
+      <v-divider></v-divider>
+      <l-fixed-window :to-bottom="36" :offset-top.sync="offsetTop">
+        <template slot="fixed-top">
+          <v-layout :class="offsetTop === 0 ? '':'elevation-2'" align-center>
+            <v-flex style="width: calc(100% - 64px)">
+              <v-tabs height="36px" :color="dark ? 'grey darken-4':'grey lighten-3'" show-arrows v-model="tab">
+                <template v-for="(t, i) in tabItems">
+                  <v-tab :class="tab === i ? dark ? 'grey darken-3':'grey lighten-5':''" :key="i">
+                    <span class="pl-2">{{t.label}}</span>
+                    <v-btn :disabled="tabItems.length === 1" @click.stop="tabItems.splice(i,1)" class="ml-3 mr-0" icon
+                           small>
+                      <v-icon clickable small>mdi-close</v-icon>
+                    </v-btn>
+                  </v-tab>
+                  <v-divider :key="i + 'd'" vertical></v-divider>
+                </template>
+              </v-tabs>
+            </v-flex>
+            <v-divider vertical></v-divider>
+            <div :class="dark ? 'grey darken-4':'grey lighten-3'" class="text-xs-center"
+                 style="width: 48px; height: 36px">
+              <v-menu bottom open-on-hover>
+                <v-btn small icon slot="activator">
+                  <v-icon size="20px" color="grey">mdi-close-circle-outline</v-icon>
                 </v-btn>
-              </v-tab>
-              <v-divider :key="i + 'd'" vertical></v-divider>
-            </template>
-          </v-tabs>
-        </v-flex>
-        <div :class="dark ? 'grey darken-4':'grey lighten-3'" style="width: 64px">
-          <v-menu bottom>
-            <v-btn icon slot="activator">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-list dense>
-              <v-list-tile @click="">
-                关闭所有
-              </v-list-tile>
-              <v-list-tile @click="">
-                关闭其他
-              </v-list-tile>
-            </v-list>
-          </v-menu>
-        </div>
-      </v-layout>
-      <v-layout :style="{height: (viewHeight - 136) + 'px', overflowY:'auto'}" v-resize="onResize">
+                <v-list dense>
+                  <v-list-tile @click="">
+                    关闭所有
+                  </v-list-tile>
+                  <v-list-tile @click="">
+                    关闭其他
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
+            </div>
+          </v-layout>
+        </template>
         <router-view/>
-      </v-layout>
+      </l-fixed-window>
     </v-content>
     <v-footer
       app
       class="footer"
       fixed
-      height="auto"
+      height="36px"
       inset
     >
       <v-layout class="caption grey--text text-xs-center" justify-cetner>
         <v-flex>&copy;{{(new Date()).getFullYear()}} Design by LZ</v-flex>
+        <div class="px-2">Ver. 0.1.0</div>
       </v-layout>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+import LFixedWindow from '../core/components/LFixedWindow'
 export default {
   name: 'Main',
+  components: {LFixedWindow},
   data: () => ({
     tab: 0,
+    offsetTop: 0,
     tabItems: [
-      {key: 'tab1', label: 'tab1'},
+      {key: 'tab1', label: '首页'},
       {key: 'tab2', label: 'tab2'},
       {key: 'tab3', label: 'tab3'},
       {key: 'tab4', label: 'tab4'},
