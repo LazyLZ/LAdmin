@@ -6,7 +6,7 @@
     >
       <v-flex xs12>
         <v-img
-          :src="require('../assets/logo.svg')"
+          :src="require('../../assets/logo.svg')"
           class="my-3"
           contain
           height="200"
@@ -81,11 +81,11 @@
         </v-layout>
       </v-flex>
     </v-layout>
-    <v-layout justify-center>
-      <v-checkbox label="test" :value="true"></v-checkbox>
-      <v-checkbox label="test" :value="true"></v-checkbox>
-      <v-checkbox label="test" :value="true"></v-checkbox>
-    </v-layout>
+    <!--<v-layout justify-center>-->
+    <!--<v-checkbox label="test" :value="true"></v-checkbox>-->
+    <!--<v-checkbox label="test" :value="true"></v-checkbox>-->
+    <!--<v-checkbox label="test" :value="true"></v-checkbox>-->
+    <!--</v-layout>-->
   </v-container>
 </template>
 
