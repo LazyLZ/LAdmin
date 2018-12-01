@@ -80,16 +80,26 @@ export default {
         this.$nextTick(() => {
           this.refreshDom()
         })
-      } else {
+      }
+      else {
         this.emitScroll(e)
+      }
+    },
+    refresh (next = true) {
+      if (next) {
+        this.$nextTick(() => {
+          this.refreshDom()
+        })
+      }
+      else {
+        this.refreshDom()
       }
     },
     refreshDom () {
       // this.fixedTop = this.$refs.top.getBoundingClientRect().top || 0
       // this.fixedHeight = this.$refs.top.offsetHeight
       if (this.$refs.scroll) {
-        let top = this.$refs.scroll.getBoundingClientRect().top || 0
-        this.scrollTop = top
+        this.scrollTop = this.$refs.scroll.getBoundingClientRect().top || 0
         this.$refs.scroll.style.height = this.contentHeight + 'px'
         // console.log('scrollTop', this.scrollTop, this.fixedHeight, this.fixedTop, this.topHeight)
       }

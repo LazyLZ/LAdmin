@@ -1,0 +1,49 @@
+<template>
+  <v-toolbar :color="dark ? '':'white'" app dense flat>
+    <v-toolbar-side-icon @click="mainNavDrawer = !mainNavDrawer"></v-toolbar-side-icon>
+    <v-toolbar-title class="headline">
+      <v-flex @click="$router.push('/')" class=" body-1">
+        <v-icon small>mdi-home</v-icon>
+        <span class="px-2">首页</span>
+      </v-flex>
+
+    </v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-tooltip bottom>
+      <v-btn @click="dark = !dark" icon slot="activator">
+        <v-icon>mdi-invert-colors</v-icon>
+      </v-btn>
+      <span>切换主题</span>
+    </v-tooltip>
+    <v-tooltip bottom>
+      <v-btn icon slot="activator">
+        <v-avatar size="36px">
+          <img alt="lazylz" src="@/assets/lazylz_avatar.jpg"/>
+        </v-avatar>
+      </v-btn>
+      <span>lazylz</span>
+    </v-tooltip>
+  </v-toolbar>
+</template>
+
+<script>
+import {createHelpers} from 'vuex-map-fields'
+
+const {mapFields} = createHelpers({
+  getterType: '$L/getField',
+  mutationType: '$L/updateField',
+})
+export default {
+  name: 'mainToolbar',
+  computed: {
+    ...mapFields([
+      'dark',
+      'mainNavDrawer'
+    ])
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
