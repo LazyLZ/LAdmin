@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>test router 1 {{Math.random() * 1000}}</div>
-    <div>{{'/home/homepage/i'.split('/')}}</div>
+    <!--<div>{{'/home/homepage/i'.split('/')}}</div>-->
   </div>
 </template>
 

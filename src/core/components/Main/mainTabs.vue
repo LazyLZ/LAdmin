@@ -2,7 +2,8 @@
   <v-layout :class="floatingTabs ? 'elevation-1':''"
             align-center style="transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1)">
     <v-flex style="width: calc(100% - 36px)">
-      <v-tabs :color="dark ? 'grey darken-4':'grey lighten-3'" :value="tab" height="36px" hide-slider show-arrows>
+      <v-tabs v-if="mainTabItems.length > 0" :color="dark ? 'grey darken-4':'grey lighten-3'" :value="tab" height="36px"
+              hide-slider show-arrows>
         <template v-for="(t, i) in mainTabItems">
           <v-tab
             :class="tab === i ? dark ? 'grey darken-3 primary--text':'grey lighten-5 primary--text':''"

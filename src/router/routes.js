@@ -2,6 +2,8 @@ import Main from '../core/components/Main/main'
 import helloWorld from '../views/testPage/helloWorld'
 import testRouter1 from '../views/testPage/testRouter1'
 import login from '../views/Login/login'
+import notFound from '../views/Error/notFound'
+import accessDeny from '../views/Error/accessDeny'
 
 let pageDefine = [
   {divider: true, header: 'subheading'},
@@ -77,7 +79,7 @@ export default [
           access: [], // 页面权限数组
         }
       }
-    ]
+    ],
   },
   {
     path: '/login',
@@ -92,10 +94,6 @@ export default [
       access: [], // 页面权限数组
     }
   },
-  // {
-  //   path: '/open',
-  //   component: '',
-  // },
   {
     path: '/test-router-parent',
     name: 'TestRouterParent',
@@ -104,7 +102,11 @@ export default [
       {
         path: 'test-router-1',
         name: 'TestRouter1',
-        component: testRouter1
+        component: testRouter1,
+        meta: {
+          label: '固定页面',
+          persistent: true
+        }
       },
       {
         path: 'test-router-2',
@@ -133,5 +135,15 @@ export default [
         }
       },
     ]
+  },
+  {
+    path: '/not-found',
+    name: 'NotFound',
+    component: notFound,
+  },
+  {
+    path: '/access-deny',
+    name: 'AccessDeny',
+    component: accessDeny,
   }
 ]

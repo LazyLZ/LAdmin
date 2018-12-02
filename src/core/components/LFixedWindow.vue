@@ -117,6 +117,11 @@ export default {
       this.refreshDom()
       this.setOverflowY('auto')
     }, 250)
+    setTimeout(() => {
+      // console.log('refresh')
+      this.refreshDom()
+      // this.setOverflowY('auto')
+    }, 400)
   }
 }
 </script>

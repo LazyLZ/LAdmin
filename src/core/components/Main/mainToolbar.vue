@@ -4,16 +4,35 @@
     <v-toolbar-title class="headline">
       <v-flex @click="$router.push('/')" class=" body-1">
         <v-icon small>mdi-home</v-icon>
-        <span class="px-2">首页</span>
+        <span class="px-2 body-2">首页</span>
       </v-flex>
 
     </v-toolbar-title>
     <v-spacer></v-spacer>
+    <v-tooltip bottom class="hidden-sm-and-down">
+      <v-btn icon slot="activator">
+        <v-icon>mdi-fullscreen</v-icon>
+      </v-btn>
+      <span>全屏</span>
+    </v-tooltip>
     <v-tooltip bottom>
       <v-btn @click="dark = !dark" icon slot="activator">
         <v-icon>mdi-invert-colors</v-icon>
       </v-btn>
       <span>切换主题</span>
+    </v-tooltip>
+    <v-tooltip bottom>
+      <v-btn @click="haveNotification = !haveNotification" icon slot="activator">
+        <v-badge
+          size="4px"
+          overlap=""
+          v-model="haveNotification"
+        >
+          <span slot="badge">2</span>
+          <v-icon>mdi-bell</v-icon>
+        </v-badge>
+      </v-btn>
+      <span>系统消息</span>
     </v-tooltip>
     <v-tooltip bottom>
       <v-btn icon slot="activator">
@@ -38,7 +57,8 @@ export default {
   computed: {
     ...mapFields([
       'dark',
-      'mainNavDrawer'
+      'mainNavDrawer',
+      'haveNotification'
     ])
   }
 }

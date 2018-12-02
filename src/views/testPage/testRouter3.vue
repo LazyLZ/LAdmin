@@ -1,5 +1,8 @@
 <template>
-  <div style="height: 1000px">test router 3 {{Math.random() * 1000}}</div>
+  <div>
+    <div>test router 3 {{Math.random() * 1000}}</div>
+    <h1>//{{$vuetify.breakpoint.name}}//</h1>
+  </div>
 </template>
 
 <script>

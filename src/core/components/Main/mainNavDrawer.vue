@@ -1,13 +1,20 @@
 <template>
   <v-navigation-drawer
     :class="dark? 'grey darken-3':'blue-grey darken-4'"
+    :mini-variant="smallScreen ? false : !mainNavDrawer"
+    :permanent="!smallScreen"
     app
     dark
     fixed
-    v-model="mainNavDrawer"
+    v-model="drawerModel"
   >
     <v-layout align-center class="headline" style="height: 96px">
-      <v-flex>
+      <v-flex align-center justify-center layout v-if="!smallScreen && !mainNavDrawer">
+        <v-avatar>
+          <img alt="logo" src="@/assets/lazylz_avatar.jpg"/>
+        </v-avatar>
+      </v-flex>
+      <v-flex v-else>
         <span class="primary--text pl-3">LAdmin</span>
         <span class="px-2 font-weight-light white--text">|</span>
         <span class="font-weight-light subheading white--text">MATERIAL DESIGN</span>
@@ -85,16 +92,57 @@ export default {
     ]
   }),
   computed: {
+    smallScreen () {
+      return this.$vuetify.breakpoint.smAndDown
+    },
+    mdScreen () {
+      return this.$vuetify.breakpoint.mdOnly
+    },
+    largeScreen () {
+      return this.$vuetify.breakpoint.lgAndUp
+    },
     ...mapFields([
       'dark',
       'mainNavDrawer'
-    ])
+    ]),
+    drawerModel: {
+      get () {
+        if (this.smallScreen) {
+          return this.mainNavDrawer
+        }
+        else {
+          return true
+        }
+      },
+      set (val) {
+        if (this.smallScreen) {
+          this.mainNavDrawer = val
+        }
+      }
+    }
+  },
+  watch: {
+    largeScreen (val, oldVal) {
+      if (val && !oldVal) {
+        this.mainNavDrawer = true
+      }
+      if (!val && oldVal) {
+        if (this.mdScreen) {
+          this.mainNavDrawer = false
+        }
+      }
+    }
   },
   methods: {
     go (p) {
       if (p) {
         this.$router.push(p)
       }
+    }
+  },
+  created () {
+    if (this.mdScreen) {
+      this.mainNavDrawer = false
     }
   }
 }

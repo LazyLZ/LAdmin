@@ -15,8 +15,12 @@
       <v-container justify-center>
         <v-layout class="pt-5" fill-height justify-center>
           <v-card class="elevation-4" width="500px">
+            <v-card-title>
+              <span class="headline pl-2">Login</span>
+            </v-card-title>
+            <!--<v-divider></v-divider>-->
             <v-card-text>
-              <v-container class="pb-2" grid-list-md>
+              <v-container class="pb-2 pt-0" grid-list-md>
                 <v-layout row wrap>
                   <v-flex xs12>
                     <v-text-field

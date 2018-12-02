@@ -106,7 +106,7 @@ export default {
   },
   created () {
     console.log('in main', this.$route)
-    this.$store.commit('$L/recoverTab', this.$route)
+    this.$store.commit('$L/recoveryTab', this.$route)
   },
 }
 </script>
