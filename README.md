@@ -1,2 +1,2 @@
 # LAdmin
-An web admin sysyem base on vuetify
+An web admin system base on vuetify
