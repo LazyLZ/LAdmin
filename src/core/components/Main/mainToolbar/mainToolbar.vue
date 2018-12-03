@@ -2,11 +2,11 @@
   <v-toolbar :color="dark ? '':'white'" app dense flat>
     <v-toolbar-side-icon @click="mainNavDrawer = !mainNavDrawer"></v-toolbar-side-icon>
     <v-toolbar-title class="headline">
-      <v-flex @click="$router.push('/')" class=" body-1">
-        <v-icon small>mdi-home</v-icon>
-        <span class="px-2 body-2">首页</span>
-      </v-flex>
-
+      <!--<v-flex @click="$router.push('/')" class=" body-1">-->
+      <!--<v-icon small>mdi-home</v-icon>-->
+      <!--<span class="px-2 body-2">首页</span>-->
+      <!--</v-flex>-->
+      <main-breadcrumbs></main-breadcrumbs>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-tooltip bottom class="hidden-sm-and-down">
@@ -24,8 +24,8 @@
     <v-tooltip bottom>
       <v-btn @click="haveNotification = !haveNotification" icon slot="activator">
         <v-badge
-          size="4px"
           overlap=""
+          size="4px"
           v-model="haveNotification"
         >
           <span slot="badge">2</span>
@@ -47,6 +47,7 @@
 
 <script>
 import {createHelpers} from 'vuex-map-fields'
+import MainBreadcrumbs from './mainBreadcrumbs'
 
 const {mapFields} = createHelpers({
   getterType: '$L/getField',
@@ -54,13 +55,16 @@ const {mapFields} = createHelpers({
 })
 export default {
   name: 'mainToolbar',
+  components: {MainBreadcrumbs},
   computed: {
     ...mapFields([
       'dark',
       'mainNavDrawer',
-      'haveNotification'
+      'haveNotification',
+      'bcItems'
     ])
-  }
+  },
+  data: () => ({})
 }
 </script>
 

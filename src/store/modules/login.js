@@ -66,7 +66,7 @@ const mutations = {
     F.saveToLocal(LOGIN_INFO_KEY, loginInfo)
   },
   recoveryLogin () {
-    let info = F.getFromLocal(LOGIN_INFO_KEY)
+    let info = F.getFromLocal(LOGIN_INFO_KEY) || {}
     let loginInfo = new LoginInfo(info)
     for (let key of Object.keys(loginInfo)) {
       state[key] = loginInfo[key]

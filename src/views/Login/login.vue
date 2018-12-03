@@ -86,7 +86,7 @@ export default {
         id: 'admin_lz',
         role: 'admin'
       })
-      this.$router.push('/')
+      this.$router.replace('/')
     }
   }
 }

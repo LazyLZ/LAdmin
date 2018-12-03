@@ -68,6 +68,9 @@ let haveTruthyAttr = function (o, attr, own = false, nested = false, seq = '.') 
   if (!isObj(o)) {
     throw TypeError(`Params error: get (${typeof o}, ${typeof attr}), need (object, string | Array)`)
   }
+  if (!attr) {
+    return
+  }
   if (is(attr, String)) {
     if (nested) {
       chain.push(...attr.split(seq))
@@ -83,7 +86,8 @@ let haveTruthyAttr = function (o, attr, own = false, nested = false, seq = '.') 
     throw TypeError(`Params error: get (${typeof o}, ${typeof attr}), need (object, string | Array)`)
   }
   let tmp = o
-  chain.forEach(c => {
+  for (let i = 0; i < chain.length; ++i) {
+    let c = chain[i]
     if (!c) {
       throw TypeError('Attribute name should not be empty')
     }
@@ -99,8 +103,53 @@ let haveTruthyAttr = function (o, attr, own = false, nested = false, seq = '.') 
       tmp = tmp[c]
     }
     if (!tmp) return false
-  })
+  }
   return true
+}
+
+let getAttr = function (o, attr, own = false, nested = true, seq = '.') {
+  let chain = []
+  if (!isObj(o)) {
+    throw TypeError(`Params error: get (${typeof o}, ${typeof attr}), need (object, string | Array)`)
+  }
+  if (!attr) {
+    return
+  }
+  if (is(attr, String)) {
+    if (nested) {
+      chain.push(...attr.split(seq))
+    }
+    else {
+      chain.push(attr)
+    }
+  }
+  else if (is(attr, Array)) {
+    chain = attr
+  }
+  else {
+    throw TypeError(`Params error: get (${typeof o}, ${typeof attr}), need (object, string | Array)`)
+  }
+  let tmp = o
+  for (let i = 0; i < chain.length; ++i) {
+    let c = chain[i]
+    if (!c) {
+      throw TypeError('Attribute name should not be empty')
+    }
+    if (own) {
+      if (tmp.hasOwnProperty(c)) {
+        tmp = tmp[c]
+      }
+      else {
+        return
+      }
+    }
+    else {
+      tmp = tmp[c]
+    }
+    if (!tmp) return tmp
+  }
+
+  return tmp
 }
 
 export default {
@@ -110,4 +159,5 @@ export default {
   is,
   isObj,
   haveTruthyAttr,
+  getAttr,
 }

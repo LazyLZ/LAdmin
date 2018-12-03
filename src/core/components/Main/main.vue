@@ -36,8 +36,8 @@
 
 <script>
 import LFixedWindow from '../LFixedWindow'
-import MainNavDrawer from './mainNavDrawer'
-import MainToolbar from './mainToolbar'
+import MainNavDrawer from './mainNavDrawer/mainNavDrawer'
+import MainToolbar from './mainToolbar/mainToolbar'
 import MainTabs from './mainTabs'
 import {createHelpers} from 'vuex-map-fields'
 
@@ -74,7 +74,7 @@ export default {
       }
     },
     '$route' (to, from) {
-      console.log('$route change', to.fullPath, from.fullPath)
+      console.log('$route change', to.fullPath, from.fullPath, to)
       // this.$refs.fixedWindow.refresh(false)
       this.$refs.fixedWindow.refresh()
       let t = this.mainTabItems.find(item => item.to === to.fullPath)

@@ -4,11 +4,14 @@ import routes from './routes'
 import store from '@/store/index'
 import cfg from '@/config'
 import F from '@/core/utils/functional'
+
 Vue.use(Router)
 
 const LOGIN_PAGE_NAME = 'Login'
 const ACCESS_DENY_PAGE_NAME = 'AccessDeny'
 const NOT_FOUND_PAGE_NAME = 'NotFound'
+const HOME_PAGE_NAME = 'Home'
+
 let isNeedLogin = function (to) {
   if (!store.getters['login/isLogin']) {
     store.commit('login/recoveryLogin')
@@ -51,4 +54,10 @@ router.beforeEach((to, from, next) => {
 })
 
 // console.log(router)
+// export const getRoute = function (name) {
+//   if (!name) return
+//   return routes.find(r => r.name === name)
+// }
+export {NOT_FOUND_PAGE_NAME, ACCESS_DENY_PAGE_NAME, HOME_PAGE_NAME}
+
 export default router

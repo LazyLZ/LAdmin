@@ -8,7 +8,7 @@ let routeToTab = function (route) {
     label: route.meta.label || route.name || route.path,
     to: route.fullPath || route.path || '',
     persistent: route.meta.persistent || false,
-    subText: route.meta.subText || ''
+    subText: F.getAttr(route, route.meta.subText)
   }
 }
 let getPersistentTab = function () {
@@ -34,6 +34,7 @@ const state = {
   floatingTabs: false,
   pageLoading: false,
   haveNotification: true,
+  // bcItems: []
 }
 const getters = {
   getField,
@@ -46,9 +47,6 @@ const mutations = {
   updateField,
   addTab (state, route) {
     let tab = routeToTab(route)
-    if (route.meta.showInTab) {
-      tab.subText = route.query[route.meta.showInTab]
-    }
     state.mainTabItems.push(tab)
     F.saveToLocal('$mainTabItems', state.mainTabItems)
   },
@@ -82,7 +80,14 @@ const mutations = {
     }
     console.log('recover', tabs)
     state.mainTabItems = tabs
-  }
+  },
+  // addBread (state, route) {
+  //   state.bcItems.push({
+  //     text: route.meta.label || route.name || '',
+  //     disabled: true,
+  //     href: route.fullPath || route.path
+  //   })
+  // },
 }
 
 export default {
