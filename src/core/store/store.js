@@ -8,7 +8,8 @@ let routeToTab = function (route) {
     label: route.meta.label || route.name || route.path,
     to: route.fullPath || route.path || '',
     persistent: route.meta.persistent || false,
-    subText: F.getAttr(route, route.meta.subText)
+    subText: F.getAttr(route, route.meta.subText),
+    beforeCloseName: route.meta.beforeCloseName || ''
   }
 }
 let getPersistentTab = function () {
@@ -34,6 +35,29 @@ const state = {
   floatingTabs: false,
   pageLoading: false,
   haveNotification: true,
+  globalAlert: {
+    type: '',
+    title: '',
+    message: ''
+  },
+  globalAlertActivate: false,
+  globalOperation: {
+    title: '',
+    icon: '',
+    iconColor: '',
+    text: '',
+    subText: '',
+    disableCancel: false,
+    disableConfirm: false,
+    cancelText: '取消',
+    confirmText: '确认',
+    width: '350px',
+    onCancel: () => {
+    },
+    onConfirm: () => {
+    },
+  },
+  globalOperationActivate: false
   // bcItems: []
 }
 const getters = {
@@ -88,8 +112,34 @@ const mutations = {
   //     href: route.fullPath || route.path
   //   })
   // },
+  openAlert (state, {type = '', title = '', message = ''}) {
+    state.globalAlert = {
+      type: type,
+      title: title,
+      message: message
+    }
+    state.globalAlertActivate = true
+  },
+  openOperation (state, attr) {
+    let emptyF = () => {
+    }
+    state.globalOperation = {
+      title: attr.title || '',
+      icon: attr.icon || '',
+      iconColor: attr.iconColor || '',
+      text: attr.text || '',
+      subText: attr.subText || '',
+      disableCancel: attr.disableCancel || false,
+      disableConfirm: attr.disableConfirm || false,
+      cancelText: attr.cancelText || '取消',
+      confirmText: attr.confirmText || '确认',
+      width: attr.width || '350px',
+      onCancel: attr.onCancel || emptyF,
+      onConfirm: attr.onConfirm || emptyF
+    }
+    state.globalOperationActivate = true
+  }
 }
-
 export default {
   namespaced: true,
   state,

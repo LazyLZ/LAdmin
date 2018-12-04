@@ -1,4 +1,5 @@
 export default {
   appName: 'LAdmin',
-  permissionSeq: ':'
+  permissionSeq: ':',
+  navDrawerWidth: 300,
 }

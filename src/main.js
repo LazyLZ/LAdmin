@@ -8,10 +8,14 @@ import './registerServiceWorker'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import axios from 'axios'
-
+import cfg from './config'
+import F from './core/utils/functional'
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-
+Vue.prototype.$L = {
+  cfg,
+  F
+}
 new Vue({
   router,
   store,

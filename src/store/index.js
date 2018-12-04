@@ -8,7 +8,14 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   mutations: {},
-  actions: {},
+  actions: {
+    alert ({commit}, attr) {
+      commit('$L/openAlert', attr)
+    },
+    confirm ({commit}, attr) {
+      commit('$L/openOperation', attr)
+    }
+  },
   modules: {
     $L,
     login

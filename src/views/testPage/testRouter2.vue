@@ -9,6 +9,19 @@
 <script>
 export default {
   name: 'testRouter2',
+  computed: {
+    inChildren () {
+      return false
+    },
+    notCacheName () {
+      return (this.$route.meta && this.$route.meta.notCache) ? this.$route.name : ''
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      // console.log('test route 2', this.$route)
+    }
+  },
   methods: {
     goDetails () {
       this.$router.push({name: 'TestDetails', query: {id: Math.round(Math.random() * 1000) + ''}})

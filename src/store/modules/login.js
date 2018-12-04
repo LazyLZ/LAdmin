@@ -55,15 +55,22 @@ const getters = {
     return buildAccess(state.permission)
   }
 }
-const actions = {}
 const mutations = {
   updateField,
-  saveLoginInfo (state, info) {
+  saveInfo (state, info) {
     let loginInfo = new LoginInfo(info)
     for (let key of Object.keys(loginInfo)) {
       state[key] = loginInfo[key]
     }
     F.saveToLocal(LOGIN_INFO_KEY, loginInfo)
+  },
+  deleteInfo (state) {
+    state.token = ''
+    state.name = ''
+    state.id = ''
+    state.role = ''
+    state.access = {}
+    F.deleteLocal(LOGIN_INFO_KEY)
   },
   recoveryLogin () {
     let info = F.getFromLocal(LOGIN_INFO_KEY) || {}
@@ -71,6 +78,25 @@ const mutations = {
     for (let key of Object.keys(loginInfo)) {
       state[key] = loginInfo[key]
     }
+  }
+}
+
+const actions = {
+  async login ({dispatch, commit}, payload) {
+
+    // test
+    let loginInfo = new LoginInfo({token: '__TEMP__', name: 'LZ', id: 'admin_lz', role: 'admin'})
+
+    // your login dispatch
+    // throw error when login failed
+
+    commit('saveInfo', loginInfo)
+    return true
+  },
+  async logout ({dispatch, commit}, payload) {
+    // your logout dispatch
+
+    return true
   }
 }
 

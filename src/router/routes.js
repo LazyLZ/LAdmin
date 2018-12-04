@@ -4,7 +4,7 @@ import testRouter1 from '../views/testPage/testRouter1'
 import login from '../views/Login/login'
 import notFound from '../views/Error/notFound'
 import accessDeny from '../views/Error/accessDeny'
-
+import ParentView from '../core/components/parentView'
 // let pageDefine = [
 //   {divider: true, header: 'subheading'},
 //   {
@@ -101,6 +101,10 @@ export default [
     path: '/test-router-parent',
     name: 'TestRouterParent',
     component: Main,
+    meta: {
+      label: '违章处理',
+      disabled: true
+    },
     children: [
       {
         path: 'test-router-1',
@@ -115,13 +119,16 @@ export default [
         path: 'test-router-2',
         name: 'TestRouter2',
         component: resolve => require(['../views/testPage/testRouter2'], resolve),
+        meta: {
+          label: '违章事件处理'
+        },
         children: [
           {
-            path: 'test-router-2/details-:id',
+            path: 'details-:id',
             name: 'TestDetailsParams',
             component: () => import('../views/testPage/paramsPage'),
             meta: {
-              label: '测试Params',
+              label: '违章事件上报',
               subText: 'params.id'
             }
           },
@@ -133,22 +140,42 @@ export default [
         component: () => import('../views/testPage/testRouter3')
       },
       {
-        path: 'details',
-        name: 'TestDetails',
-        component: () => import('../views/testPage/detailsPage'),
+        path: 'test-router-2',
+        name: 'TestDetailsParent',
+        component: ParentView,
         meta: {
-          subText: 'query.id'
-        }
+          label: '违章事件处理',
+          // subText: 'query.id'
+        },
+        children: [
+          {
+            path: 'admin',
+            name: 'TestDetailsSecondParent',
+            component: ParentView,
+            meta: {
+              label: '管理员处理',
+              disabled: true
+            },
+            children: [
+              {
+                path: 'details',
+                name: 'TestDetails',
+                component: () => import('../views/testPage/detailsPage'),
+                meta: {
+                  label: '违章事件详情',
+                  subText: 'query.id',
+                  beforeCloseName: 'defaultBeforeClose'
+                }
+              }
+            ]
+          }
+        ]
       },
 
     ],
-    meta: {
-      label: '测试路由',
-      disabled: true
-    }
   },
   {
-    path: '',
+    path: '*',
     redirect: '/not-found'
   },
   {

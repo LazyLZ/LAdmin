@@ -21,5 +21,8 @@ Vue.use(Vuetify, {
     locales: {zhHans},
     current: 'zh-Hans'
   },
-  directives: directives
+  directives: directives,
+  icons: {
+    test: 'mdi-close-circle'
+  }
 })

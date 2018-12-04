@@ -1,12 +1,16 @@
 <template>
   <v-dialog :max-width="width || maxWidth" :persistent="persistent" :scrollable="scrollable" v-model="value_">
-    <slot slot="activator" name="activator"></slot>
+    <slot name="activator" slot="activator"></slot>
     <v-card :max-width="width ||maxWidth">
-      <v-card-title class="title">{{title}}</v-card-title>
+      <v-card-title class="title" style="height: 56px;">{{title}}</v-card-title>
       <v-card-text class="py-2 body-1">
-        <v-flex justify-center layout row v-if="text.length">
-          <div class="subheading" style="word-wrap: break-word; word-break: break-all">{{text}}</div>
-        </v-flex>
+        <v-layout align-center class="pb-2" column justify-center v-if="text || icon || subText">
+          <v-icon :color="iconColor" class="pb-3" large v-if="icon">{{icon}}</v-icon>
+          <div class="subheading" style="word-wrap: break-word; word-break: break-all" v-if="text">{{text}}</div>
+          <div class="text-xs-center pt-2 pb-1" style="word-wrap: break-word; word-break: break-all" v-if="subText">
+            {{subText}}
+          </div>
+        </v-layout>
         <v-flex justify-center layout row>
           <!--<v-container>-->
           <slot></slot>
@@ -47,6 +51,16 @@
 export default {
   name: 'LOperationDialog',
   props: {
+    onConfirm: {
+      type: Function,
+      default: () => {
+      }
+    },
+    onCancel: {
+      type: Function,
+      default: () => {
+      }
+    },
     scrollable: {
       type: Boolean,
       default: false,
@@ -77,6 +91,18 @@ export default {
       default: ''
     },
     text: {
+      type: String,
+      default: ''
+    },
+    subText: {
+      type: String,
+      default: ''
+    },
+    icon: {
+      type: String,
+      default: ''
+    },
+    iconColor: {
       type: String,
       default: ''
     },
@@ -149,6 +175,7 @@ export default {
       if (this.autoClose) {
         this.value_ = false
       }
+      this.onCancel()
     },
     save () {
       this.$emit('confirm')
@@ -156,6 +183,7 @@ export default {
       if (this.autoClose) {
         this.value_ = false
       }
+      this.onConfirm()
     }
   }
 }

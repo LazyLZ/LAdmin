@@ -32,7 +32,7 @@ export default {
   components: {LOperationDialog},
   props: {
     value: {},
-    title: {type: String, default: '操作成功'},
+    title: {type: String, default: ''},
     successTitle: {type: String, default: '操作成功'},
     successMessage: {type: String, default: ''},
   },

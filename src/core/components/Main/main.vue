@@ -16,6 +16,23 @@
         <keep-alive :exclude="noCachePage">
           <router-view/>
         </keep-alive>
+        <l-alert :message="a.message" :title="a.title" :type="a.type" v-model="globalAlertActivate"></l-alert>
+        <!--全局操作确认-->
+        <l-operation-dialog
+          :cancelText="o.cancelText"
+          :confirmText="o.confirmText"
+          :disableCancel="o.disableCancel"
+          :disableConfirm="o.disableConfirm"
+          :icon="o.icon"
+          :iconColor="o.iconColor"
+          :onCancel="o.onCancel"
+          :onConfirm="o.onConfirm"
+          :subText="o.subText"
+          :text="o.text"
+          :title="o.title"
+          :width="o.width"
+          v-model="globalOperationActivate"
+        ></l-operation-dialog>
       </l-fixed-window>
     </v-content>
     <v-footer
@@ -41,23 +58,36 @@ import MainToolbar from './mainToolbar/mainToolbar'
 import MainTabs from './mainTabs'
 import {createHelpers} from 'vuex-map-fields'
 
+import LAlert from '@/core/components/Alerts/LAlert'
+import LOperationDialog from '@/core/components/LOperationDialog'
+
 const {mapFields} = createHelpers({
   getterType: '$L/getField',
   mutationType: '$L/updateField',
 })
 export default {
   name: 'Main',
-  components: {MainTabs, MainToolbar, MainNavDrawer, LFixedWindow},
+  components: {MainTabs, MainToolbar, MainNavDrawer, LFixedWindow, LOperationDialog, LAlert},
   data: () => ({
     offsetTop: 0,
     viewHeight: 0,
   }),
   computed: {
+    a () {
+      return this.globalAlert
+    },
+    o () {
+      return this.globalOperation
+    },
     ...mapFields([
       'dark',
       'floatingTabs',
       'mainTabItems',
       'pageLoading',
+      'globalAlert',
+      'globalAlertActivate',
+      'globalOperation',
+      'globalOperationActivate'
     ]),
     noCachePage () {
       let pages = []

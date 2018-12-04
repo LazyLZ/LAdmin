@@ -2,8 +2,8 @@
   <v-layout :class="floatingTabs ? 'elevation-1':''"
             align-center style="transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1)">
     <v-flex style="width: calc(100% - 36px)">
-      <v-tabs v-if="mainTabItems.length > 0" :color="dark ? 'grey darken-4':'grey lighten-3'" :value="tab" height="36px"
-              hide-slider show-arrows>
+      <v-tabs :color="dark ? 'grey darken-4':'grey lighten-3'" :value="tab" height="36px" hide-slider
+              show-arrows v-if="mainTabItems.length > 0">
         <template v-for="(t, i) in mainTabItems">
           <v-tab
             :class="tab === i ? dark ? 'grey darken-3 primary--text':'grey lighten-5 primary--text':''"
@@ -13,7 +13,7 @@
             <span class="px-2">{{t.label}}</span>
             <span class="pr-2 grey--text caption" v-if="t.subText">{{t.subText}}</span>
             <v-btn
-              @click.stop="closeTabSafe(i, t)"
+              @click.stop="checkClose(i, t)"
               class="ml-2 mr-0"
               icon
               small
@@ -48,7 +48,7 @@
 
 <script>
 import {createHelpers} from 'vuex-map-fields'
-
+import BCFunctions from '@/router/beforeClose'
 const {mapFields} = createHelpers({
   getterType: '$L/getField',
   mutationType: '$L/updateField',
@@ -63,20 +63,33 @@ export default {
     ]),
     tabNow () {
       let routePath = this.$route.fullPath
-      let tab = null
-      this.mainTabItems.forEach((t, i) => {
-        if (routePath.indexOf(t.to) !== -1) {
-          // console.log('find route', t.to, routePath, i)
-          tab = t
-        }
-      })
-      return tab
+      return this.mainTabItems.find(t => t.to === routePath)
+      // this.mainTabItems.forEach((t, i) => {
+      //   if (routePath.indexOf(t.to) !== -1) {
+      //     // console.log('find route', t.to, routePath, i)
+      //     tab = t
+      //   }
+      // })
+      // return tab
     },
     tab () {
       return this.mainTabItems.indexOf(this.tabNow)
     }
   },
   methods: {
+    async checkClose (i, t) {
+      let f = BCFunctions[t.beforeCloseName]
+      if (t.beforeCloseName && this.$L.F.is(f, Function)) {
+        let v = await f()
+        // console.log('return', v)
+        if (v) {
+          this.closeTabSafe(i)
+        }
+      }
+      else {
+        this.closeTabSafe(i)
+      }
+    },
     closeTabSafe (i) {
       if (this.tab === i) {
         this.$router.replace(i > 0 ? this.mainTabItems[i - 1].to : '/')
@@ -84,7 +97,14 @@ export default {
       this.$store.commit('$L/closeTab', i)
     },
     closeAll () {
-      this.$store.commit('$L/changeTab', [])
+      let tabs = []
+      this.mainTabItems.forEach(t => {
+        if (t.persistent) {
+          tabs.push(t)
+        }
+      })
+      this.$store.commit('$L/changeTab', tabs)
+      this.$router.push('/')
     },
     closeOther () {
       let tabs = []
@@ -93,7 +113,9 @@ export default {
           tabs.push(t)
         }
       })
-      tabs.push(this.tabNow)
+      if (!tabs.find(t => t.key === this.tabNow.key)) {
+        tabs.push(this.tabNow)
+      }
       this.$store.commit('$L/changeTab', tabs)
     }
   }

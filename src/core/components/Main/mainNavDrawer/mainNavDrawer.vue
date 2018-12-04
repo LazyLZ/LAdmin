@@ -3,6 +3,7 @@
     :class="dark? 'grey darken-3':'blue-grey darken-4'"
     :mini-variant="smallScreen ? false : !mainNavDrawer"
     :permanent="!smallScreen"
+    :width="$L.cfg.navDrawerWidth"
     app
     dark
     fixed
@@ -25,7 +26,7 @@
     <v-divider></v-divider>
 
     <!--导航区域-->
-    <v-list dense>
+    <v-list dense class="pt-0">
       <template v-for="(item, i) in navDrawerItem">
         <!--副标题-->
         <v-layout
@@ -57,79 +58,77 @@
             <v-list-tile-action slot="activator">
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
-            <span>{{item.text}}</span>
+            <span>{{item.label}}</span>
           </v-tooltip>
           <v-list-tile-content>
             <v-list-tile-title class="grey--text text--lighten-1">
-              {{ item.text }}
+              {{ item.label }}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
 
-        <!--展开子标题-->
+        <!--展开子标题 导航栏展开-->
         <v-list-group
           :key="i"
           :prepend-icon="item.icon"
           no-action
           v-else-if="!miniNavDrawer"
         >
+          <!--一级标题 不跳转-->
           <v-list-tile slot="activator">
             <v-list-tile-content>
               <v-list-tile-title class="grey--text text--lighten-1">
-                {{ item.text }}
+                {{ item.label }}
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <template v-for="(subItem, j) in item.children">
-            <v-list-tile
-              :key="j"
-              v-if="noChildren(subItem)"
-            >
-              <!--<v-tooltip :disabled="!miniNavDrawer" open-delay="50" right>-->
-              <!--<v-list-tile-action slot="activator">-->
-              <!--<v-icon>{{ subItem.icon }}</v-icon>-->
-              <!--</v-list-tile-action>-->
-              <!--<span>{{subItem.text}}</span>-->
-              <!--</v-tooltip>-->
+            <!--二级标题 无子标题-->
+            <v-list-tile :key="j" v-if="noChildren(subItem)" @click="go(subItem.to)">
               <v-list-tile-content>
                 <v-list-tile-title class="grey--text text--lighten-1">
-                  {{ subItem.text }}
+                  {{ subItem.label }}
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+
+            <!--二级标题 有子标题-->
             <v-list-group :key="j" sub-group v-else>
+              <!--二级标题 不跳转-->
               <v-list-tile slot="activator">
-                <!--<v-list-tile-action>-->
-                <!--<v-icon small>{{ subItem.icon }}</v-icon>-->
-                <!--</v-list-tile-action>-->
                 <v-list-tile-content>
                   <v-list-tile-title class="grey--text text--lighten-1">
-                    {{ subItem.text }}
+                    {{ subItem.label }}
                   </v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
-              <v-list-tile :key="k" v-for="(ssItem, k) in subItem.children">
+
+              <!--三级标题-->
+              <v-list-tile :key="k" v-for="(ssItem, k) in subItem.children" @click="go(ssItem.to)">
                 <v-list-tile-content>
                   <v-list-tile-title class="grey--text text--lighten-1">
-                    {{ ssItem.text }}
+                    {{ ssItem.label }}
                   </v-list-tile-title>
                 </v-list-tile-content>
+                <!--<v-list-tile-action>-->
+                <!--<v-icon small>{{ssItem.icon}}</v-icon>-->
+                <!--</v-list-tile-action>-->
               </v-list-tile>
             </v-list-group>
           </template>
         </v-list-group>
+
+        <!--展开子标题 导航栏缩进 不跳转-->
         <v-list-tile :key="i" v-else>
           <drawer-menu :item="item" open-delay="50">
-            <v-list-tile-action
-              @mouseenter="click"
-              slot="activator">
+            <v-list-tile-action slot="activator">
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
-            <span>{{item.text}}</span>
+            <span>{{item.label}}</span>
           </drawer-menu>
           <v-list-tile-content>
             <v-list-tile-title class="grey--text text--lighten-1">
-              {{ item.text }}
+              {{ item.label }}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>

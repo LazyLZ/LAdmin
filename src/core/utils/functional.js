@@ -1,4 +1,4 @@
-let is = function (v, t) {
+let is = function (v, t, exact = false) {
   let returnType = arguments.length === 1
   if (t !== t) {
     return v !== v
@@ -33,7 +33,10 @@ let saveToLocal = function (key, value, type = 'session') {
   sessionStorage.setItem(key, v)
   // console.log('save local', key, v)
 }
-
+let deleteLocal = function (key, type = 'session') {
+  sessionStorage.removeItem(key)
+  // console.log('save local', key, v)
+}
 let getFromLocal = function (key, type = 'session') {
   let value = sessionStorage.getItem(key)
   // console.log('get local', key, value)
@@ -160,4 +163,5 @@ export default {
   isObj,
   haveTruthyAttr,
   getAttr,
+  deleteLocal
 }

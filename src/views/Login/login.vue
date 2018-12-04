@@ -1,6 +1,6 @@
 <template>
   <v-app :dark="dark">
-    <v-toolbar dense app :color="dark?'':'blue-grey darken-4'">
+    <v-toolbar :color="dark?'':'blue-grey darken-4'" app dense>
       <v-toolbar-title>
         <span :class="'primary--text'">LAdmin</span>
         <span class="px-2 white--text font-weight-light">|</span>
@@ -19,23 +19,29 @@
               <span class="headline pl-2">Login</span>
             </v-card-title>
             <!--<v-divider></v-divider>-->
-            <v-card-text>
+            <v-card-text class="py-0">
               <v-container class="pb-2 pt-0" grid-list-md>
-                <v-layout row wrap>
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Login ID"
-                      prepend-icon="mdi-account"
-                    ></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Password"
-                      prepend-icon="mdi-lock"
-                      type="password"
-                    ></v-text-field>
-                  </v-flex>
-                </v-layout>
+                <v-form ref="form">
+                  <v-layout row wrap>
+                    <v-flex xs12>
+                      <v-text-field
+                        label="Login ID"
+                        prepend-icon="mdi-account"
+                        v-model="form.loginId"
+                        :rules="[ v=> !!v || '请输入用户名']"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-text-field
+                        label="Password"
+                        prepend-icon="mdi-lock"
+                        type="password"
+                        v-model="form.password"
+                        :rules="[ v=> !!v || '请输入密码']"
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                </v-form>
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -53,7 +59,7 @@
       height="auto"
     >
       <v-layout class="caption grey--text text-xs-center" justify-cetner>
-        <v-flex xs6 offset-xs3>
+        <v-flex offset-xs3 xs6>
           &copy;{{(new Date()).getFullYear()}} Design by LZ
         </v-flex>
         <v-flex class="px-2 text-xs-right" xs3>
@@ -73,20 +79,46 @@ const {mapFields} = createHelpers({
 })
 export default {
   name: 'login',
+  data: () => ({
+    error: true,
+    errorMessage: '',
+    form: {
+      loginId: 'LZ',
+      password: 'asdasdasd',
+    }
+  }),
   computed: {
     ...mapFields([
       'dark'
     ])
   },
   methods: {
-    login () {
-      this.$store.commit('login/saveLoginInfo', {
-        token: '__TEST__',
-        name: 'LazyLZ',
-        id: 'admin_lz',
-        role: 'admin'
-      })
-      this.$router.replace('/')
+    showloginError (e) {
+      this.error = true
+      this.errorMessage = e.message
+    },
+    resetLoginError () {
+      this.error = false
+      this.errorMessage = ''
+    },
+    async login () {
+      // this.$store.commit('login/saveLoginInfo', {
+      //   token: '__TEST__',
+      //   name: 'LazyLZ',
+      //   id: 'admin_lz',
+      //   role: 'admin'
+      // })
+      if (!this.$refs.form.validate()) {
+        return
+      }
+      try {
+        let f = this.form
+        await this.$store.dispatch('login/login', {id: f.loginId, name: f.password})
+        this.$router.replace('/')
+      }
+      catch (e) {
+        this.showloginError(e)
+      }
     }
   }
 }

@@ -49,8 +49,8 @@ export default {
         }
       }
       if (!stack.length || stack[0].name !== HOME_PAGE_NAME) {
-        let name = stack.length ? stack[0].name : 'empty stack'
-        console.log(name)
+        // let name = stack.length ? stack[0].name : 'empty stack'
+        // console.log(name)
         let home = {
           text: '首页',
           disabled: false,
@@ -60,7 +60,7 @@ export default {
         }
         stack.unshift(home)
       }
-      console.log('get stack', stack)
+      // console.log('get stack', stack)
       let length = stack.length
       stack.forEach((s, i) => {
         if (i === length - 1) {
