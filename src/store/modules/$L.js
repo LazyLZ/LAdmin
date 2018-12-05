@@ -1,5 +1,5 @@
 import {getField, updateField} from 'vuex-map-fields'
-import F from '../utils/functional'
+import F from '../../utils/functional'
 import routes from '@/router/routes'
 
 let routeToTab = function (route) {

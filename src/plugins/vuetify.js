@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
-
+// import 'material-design-icons-iconfont/dist/material-design-icons.css'
 // import 'vuetify/src/stylus/app.styl'
 import zhHans from 'vuetify/es5/locale/zh-Hans'
 // import colors from 'vuetify/es5/util/colors'
@@ -17,12 +17,21 @@ Vue.use(Vuetify, {
   },
   customProperties: true,
   iconfont: 'mdi',
-  lang: {
-    locales: {zhHans},
-    current: 'zh-Hans'
-  },
+  // lang: {
+  //   locales: {zhHans},
+  //   current: 'zh-Hans',
+  //
+  // },
   directives: directives,
   icons: {
-    test: 'mdi-close-circle'
+    test: 'mdi-close-circle',
+    dataIterator: {
+      pageText: ''
+    },
+    dataTable: {
+      rowsPerPageText: 'Rows Per Page'
+    }
+    // next: 'mdi-chevron-right',
+    // prev: 'mdi-chevron-left'
   }
 })

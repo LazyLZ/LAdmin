@@ -2,12 +2,12 @@
   <v-menu
     bottom
     :close-on-content-click="false"
-    close-delay="500"
+    close-delay="100"
     min-width="350px"
     max-width="350px"
     nudge-bottom="8px"
     offset-y
-    open-delay="100"
+    open-delay="200"
     open-on-hover
     right
     v-model="value_"
@@ -34,17 +34,18 @@
       </v-list>
       <v-layout></v-layout>
       <v-container class="px-2 pt-0 pb-3">
-        <v-subheader>角色</v-subheader>
+        <!--<v-subheader>角色</v-subheader>-->
         <v-layout class="pl-2">
           <v-flex>
             <v-chip
               small
-              :key="n"
-              v-for="n in 1"
+              :key="i"
+              v-for="(role, i) in roleList"
             >
-              管理员
+              {{role}}
             </v-chip>
-            <span class="caption grey--text px-2">共 8 个角色</span>
+            <span class="caption grey--text px-2" v-if="roleList.length > 1">共 {{roleList.length}} 个角色</span>
+            <v-btn small flat color="primary" v-if="roleList.length > 1">展开</v-btn>
           </v-flex>
         </v-layout>
       </v-container>

@@ -1,10 +1,10 @@
-import Main from '../core/components/Main/main'
+import Main from '../components/Main/main'
 import helloWorld from '../views/testPage/helloWorld'
 import testRouter1 from '../views/testPage/testRouter1'
 import login from '../views/Login/login'
 import notFound from '../views/Error/notFound'
 import accessDeny from '../views/Error/accessDeny'
-import ParentView from '../core/components/parentView'
+import ParentView from '../components/Layout/parentView'
 // let pageDefine = [
 //   {divider: true, header: 'subheading'},
 //   {
@@ -117,31 +117,8 @@ export default [
       },
       {
         path: 'test-router-2',
-        name: 'TestRouter2',
-        component: resolve => require(['../views/testPage/testRouter2'], resolve),
-        meta: {
-          label: '违章事件处理'
-        },
-        children: [
-          {
-            path: 'details-:id',
-            name: 'TestDetailsParams',
-            component: () => import('../views/testPage/paramsPage'),
-            meta: {
-              label: '违章事件上报',
-              subText: 'params.id'
-            }
-          },
-        ]
-      },
-      {
-        path: 'test-router-3',
-        name: 'TestRouter3',
-        component: () => import('../views/testPage/testRouter3')
-      },
-      {
-        path: 'test-router-2',
         name: 'TestDetailsParent',
+        redirect: {name: 'TestRouter2'},
         component: ParentView,
         meta: {
           label: '违章事件处理',
@@ -171,8 +148,49 @@ export default [
           }
         ]
       },
-
+      {
+        path: 'test-router-2',
+        name: 'TestRouter2',
+        component: resolve => require(['../views/testPage/testRouter2'], resolve),
+        meta: {
+          label: '违章事件处理'
+        },
+        children: [
+          {
+            path: 'details-:id',
+            name: 'TestDetailsParams',
+            component: () => import('../views/testPage/paramsPage'),
+            meta: {
+              label: '违章事件上报',
+              subText: 'params.id'
+            }
+          },
+        ]
+      },
+      {
+        path: 'test-router-3',
+        name: 'TestRouter3',
+        component: () => import('../views/testPage/testRouter3')
+      },
     ],
+  },
+  {
+    path: '/test-components',
+    component: Main,
+    meta: {
+      hideInBread: true,
+      disabled: true,
+    },
+    children: [
+      {
+        path: 'test-component-page',
+        component: () => import('../views/testPage/testComponents'),
+        meta: {
+          label: '组件调试',
+          icon: 'mdi-cellphone-android'
+        }
+      }
+    ]
   },
   {
     path: '*',

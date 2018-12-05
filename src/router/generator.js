@@ -2,7 +2,7 @@ import Router from 'vue-router'
 import routes from './routes'
 import store from '@/store/index'
 import cfg from '@/config'
-import F from '@/core/utils/functional'
+import F from '@/utils/functional'
 
 const LOGIN_PAGE_NAME = 'Login'
 const ACCESS_DENY_PAGE_NAME = 'AccessDeny'

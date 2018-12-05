@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import $L from '../core/store/store'
+import $L from './modules/$L'
 import login from './modules/login'
 Vue.use(Vuex)
 

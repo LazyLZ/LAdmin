@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import LOperationDialog from '../LOperationDialog'
+import LOperationDialog from './LOperationDialog'
 
 export default {
   name: 'LErrorDialog',

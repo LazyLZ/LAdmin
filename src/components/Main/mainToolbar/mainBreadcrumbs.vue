@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import F from '@/core/utils/functional'
+import F from '@/utils/functional'
 
 let HOME_PAGE_NAME = 'Home'
 let routeToBread = function (route) {

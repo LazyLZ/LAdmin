@@ -17,9 +17,9 @@
         </v-avatar>
       </v-flex>
       <v-flex v-else>
-        <span class="primary--text pl-3">LAdmin</span>
+        <span class="primary--text pl-3">{{$L.cfg.appName.full}}</span>
         <span class="px-2 font-weight-light white--text">|</span>
-        <span class="font-weight-light subheading white--text">MATERIAL DESIGN</span>
+        <span class="font-weight-light white--text">{{$L.cfg.appName.subTitle}}</span>
       </v-flex>
     </v-layout>
 

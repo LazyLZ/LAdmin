@@ -1,5 +1,5 @@
 import {getField, updateField} from 'vuex-map-fields'
-import F from '@/core/utils/functional'
+import F from '@/utils/functional'
 import cfg from '@/config'
 
 let LOGIN_INFO_KEY = 'loginInfo'
@@ -32,7 +32,12 @@ const state = {
   name: '',
   id: '',
   role: '',
-  access: {}
+  access: {},
+  exitDialog: {
+    count: 0,
+    reason: '由于长时间未操作, 您的登录信息已失效',
+  },
+  exitDialogActivate: false,
 }
 const getters = {
   getField,
@@ -78,6 +83,13 @@ const mutations = {
     for (let key of Object.keys(loginInfo)) {
       state[key] = loginInfo[key]
     }
+  },
+  openExitDialog (state, {second, reason}) {
+    state.exitDialog.count = second
+    if (reason) {
+      state.exitDialog.reason = reason
+    }
+    state.exitDialogActivate = true
   }
 }
 
@@ -93,9 +105,15 @@ const actions = {
     commit('saveInfo', loginInfo)
     return true
   },
-  async logout ({dispatch, commit}, payload) {
-    // your logout dispatch
-
+  async logout ({dispatch, commit}, silent = false) {
+    if (!silent) {
+      // your logout dispatch
+    }
+    commit('deleteInfo')
+    return true
+  },
+  async logoutCount ({dispatch, commit}, {second, reason}) {
+    commit('openExitDialog', {second, reason})
     return true
   }
 }

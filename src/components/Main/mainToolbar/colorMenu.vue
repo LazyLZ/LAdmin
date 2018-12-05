@@ -2,13 +2,13 @@
   <v-menu
     :close-on-content-click="false"
     bottom
-    open-delay="100"
+    open-delay="200"
     open-on-hover
     min-width="256px"
     nudge-bottom=""
     nudge-left="64px"
     offset-y
-    close-delay="500"
+    close-delay="100"
     v-model="value_"
   >
     <slot name="activator" slot="activator"></slot>

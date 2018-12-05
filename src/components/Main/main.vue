@@ -16,7 +16,10 @@
         <keep-alive :exclude="noCachePage">
           <router-view/>
         </keep-alive>
+
+        <!--全局提示-->
         <l-alert :message="a.message" :title="a.title" :type="a.type" v-model="globalAlertActivate"></l-alert>
+
         <!--全局操作确认-->
         <l-operation-dialog
           :cancelText="o.cancelText"
@@ -33,6 +36,11 @@
           :width="o.width"
           v-model="globalOperationActivate"
         ></l-operation-dialog>
+
+        <!--全局删除提示-->
+
+        <!--登录过期计时退出对话框-->
+        <l-exit-dialog></l-exit-dialog>
       </l-fixed-window>
     </v-content>
     <v-footer
@@ -52,22 +60,32 @@
 </template>
 
 <script>
-import LFixedWindow from '../LFixedWindow'
+import LFixedWindow from '../Layout/LFixedWindow'
 import MainNavDrawer from './mainNavDrawer/mainNavDrawer'
 import MainToolbar from './mainToolbar/mainToolbar'
 import MainTabs from './mainTabs'
 import {createHelpers} from 'vuex-map-fields'
 
-import LAlert from '@/core/components/Alerts/LAlert'
-import LOperationDialog from '@/core/components/LOperationDialog'
+import LAlert from '@/components/Alerts/LAlert'
+import LOperationDialog from '@/components/Alerts/LOperationDialog'
+import LExitDialog from '../Alerts/LExitDialog'
 
 const {mapFields} = createHelpers({
   getterType: '$L/getField',
   mutationType: '$L/updateField',
 })
+
 export default {
   name: 'Main',
-  components: {MainTabs, MainToolbar, MainNavDrawer, LFixedWindow, LOperationDialog, LAlert},
+  components: {
+    MainTabs,
+    MainToolbar,
+    MainNavDrawer,
+    LFixedWindow,
+    LOperationDialog,
+    LAlert,
+    LExitDialog,
+  },
   data: () => ({
     offsetTop: 0,
     viewHeight: 0,

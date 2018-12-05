@@ -10,7 +10,7 @@
     <div>test router 3 {{Math.random() * 1000}}</div>
     <!--<h1>//{{$vuetify.breakpoint.name}}//</h1>-->
     <v-btn @click="dialog = !dialog">trigger error</v-btn>
-    <l-operation-dialog title="确认离开" text="确认离开此页?" sub-text="您所做的操作将不会保存">
+    <l-operation-dialog sub-text="您所做的操作将不会保存" text="确认离开此页?" title="确认离开">
       <v-btn slot="activator">trigger operation</v-btn>
     </l-operation-dialog>
     <l-error-dialog :error-message="'this is an error message'" error-title="手动触发错误"
@@ -21,14 +21,15 @@
     <l-alert type="success snackbar dialog">
       <v-btn slot="activator">alert</v-btn>
     </l-alert>
+    <v-btn @click="testLogout">logout</v-btn>
   </div>
 </template>
 
 <script>
-import LOperationDialog from '../../core/components/LOperationDialog'
-import LErrorDialog from '../../core/components/Alerts/LErrorDialog'
-import LSuccessDialog from '../../core/components/Alerts/LSuccessDialog'
-import LAlert from '../../core/components/Alerts/LAlert'
+import LOperationDialog from '../../components/Alerts/LOperationDialog'
+import LErrorDialog from '../../components/Alerts/LErrorDialog'
+import LSuccessDialog from '../../components/Alerts/LSuccessDialog'
+import LAlert from '../../components/Alerts/LAlert'
 
 export default {
   name: 'testRouter3',
@@ -36,6 +37,11 @@ export default {
   data: () => ({
     dialog: false,
   }),
+  methods: {
+    testLogout () {
+      this.$store.dispatch('login/logoutCount', {second: 10})
+    }
+  }
 }
 </script>
 
