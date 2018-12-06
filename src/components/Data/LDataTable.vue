@@ -16,7 +16,7 @@
         <v-text-field
           :label="searchText"
           append-icon="mdi-magnify"
-          class="my-0 pt-0"
+          class="my-0 pt-0 hidden-xs-only"
           hide-details
           single-line
           v-if="!hideTitleSearch"
@@ -200,7 +200,7 @@
                 </div>
               </td>
               <td
-                :class="['text-xs' + (header.align||'left')]"
+                :class="['text-xs-' + (header.align||'left')]"
                 :key="i"
                 v-for="(header, i) in headers"
                 v-if="header.value"
