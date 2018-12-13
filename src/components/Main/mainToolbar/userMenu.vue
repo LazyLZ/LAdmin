@@ -3,8 +3,8 @@
     bottom
     :close-on-content-click="false"
     close-delay="100"
-    min-width="350px"
-    max-width="350px"
+    min-width="300px"
+    max-width="300px"
     nudge-bottom="8px"
     offset-y
     open-delay="200"

@@ -180,7 +180,7 @@
                   <v-btn @click="getData_(initPage)" class="mx-2" color="primary" flat>重新加载</v-btn>
                 </div>
                 <div v-else-if="errorData.error">
-                  <span>加载出错: {{errorData.message}}, code: {{errorData.code}}</span>
+                  <span>加载出错: {{errorData.message}}, code: {{errorData.code || 0}}</span>
                   <v-btn @click="getData_(initPage)" class="mx-2" color="primary" flat>重新加载</v-btn>
                 </div>
                 <div class="grey--text" v-else>{{noDataText}}</div>
@@ -537,7 +537,6 @@ export default {
     },
     pagination: {
       handler (pagination) {
-        // console.log('pagination change', this.util.deepClone(pagination))
         if (pagination.sortBy) {
           let stack = this.sortStack
           let t = stack.find(s => s.by === pagination.sortBy)
@@ -590,7 +589,7 @@ export default {
         return
       }
       if (pagination) {
-        this.pagination = this.util.deepClone(pagination)
+        this.pagination = Object.assign({}, pagination)
         return
       }
       let F = this.getDataFunc
@@ -609,7 +608,7 @@ export default {
           titleSwitch: this.switchValue
         }
         let res = await F(params, payload)
-        logger.debug('[LDataTable]', 'get Data', this.util.deepClone(params), res.items, res.amount)
+        logger.debug('[LDataTable]', 'get Data', params, res.items, res.amount)
         this.items_ = res.items || []
         this.totalItems_ = res.amount || 0
         this.$emit('update:data', this.items_)

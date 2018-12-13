@@ -1,6 +1,23 @@
 <template>
   <v-app :dark="dark">
-    <main-nav-drawer></main-nav-drawer>
+    <main-nav-drawer>
+      <template slot="logo" slot-scope="{mini}">
+        <slot :mini="mini" name="logo">
+          <v-layout align-center class="headline" style="height: 96px">
+            <v-flex align-center justify-center layout v-if="mini">
+              <v-avatar>
+                <img alt="logo" src="@/assets/lazylz_avatar.jpg"/>
+              </v-avatar>
+            </v-flex>
+            <v-flex v-else>
+              <span class="primary--text pl-3">{{$L.cfg.appName.full}}</span>
+              <span class="px-2 font-weight-light white--text" v-if="$L.cfg.appName.subTitle">|</span>
+              <span class="font-weight-light white--text">{{$L.cfg.appName.subTitle}}</span>
+            </v-flex>
+          </v-layout>
+        </slot>
+      </template>
+    </main-nav-drawer>
     <main-toolbar></main-toolbar>
     <v-content>
       <v-divider></v-divider>
@@ -13,10 +30,11 @@
           <v-progress-linear class="py-0 my-0" height="2" indeterminate v-if="pageLoading"></v-progress-linear>
           <main-tabs></main-tabs>
         </template>
-        <keep-alive :exclude="noCachePage">
-          <router-view/>
-        </keep-alive>
-
+        <transition mode="out-in">
+          <keep-alive :exclude="noCachePage">
+            <router-view/>
+          </keep-alive>
+        </transition>
         <!--全局提示-->
         <l-alert :message="a.message" :title="a.title" :type="a.type" v-model="globalAlertActivate"></l-alert>
 
@@ -76,7 +94,7 @@ const {mapFields} = createHelpers({
 })
 
 export default {
-  name: 'Main',
+  name: 'LMain',
   components: {
     MainTabs,
     MainToolbar,
@@ -156,9 +174,24 @@ export default {
     console.log('in main', this.$route)
     this.$store.commit('$L/recoveryTab', this.$route)
   },
+  beforeDestroy () {
+    this.$store.commit('$L/changeTab', [])
+  }
 }
 </script>
 
 <style scoped>
+  .v-enter-active {
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);;
+  }
 
+  /*.v-leave-active {*/
+  /*transition: all 0.8s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/
+  /*}*/
+  .v-enter, .v-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */
+  {
+    transform: translateY(7px);
+    opacity: 0;
+  }
 </style>

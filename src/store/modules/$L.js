@@ -9,6 +9,7 @@ let routeToTab = function (route) {
     to: route.fullPath || route.path || '',
     persistent: route.meta.persistent || false,
     subText: F.getAttr(route, route.meta.subText),
+    cacheKey: F.getAttr(route, route.meta.cacheKey),
     beforeCloseName: route.meta.beforeCloseName || ''
   }
 }
@@ -32,9 +33,10 @@ const state = {
   dark: false,
   mainNavDrawer: true,
   mainTabItems: [],
+  lastCloseTab: null,
   floatingTabs: false,
   pageLoading: false,
-  haveNotification: true,
+  haveNotification: false,
   globalAlert: {
     type: '',
     title: '',
@@ -75,11 +77,22 @@ const mutations = {
     F.saveToLocal('$mainTabItems', state.mainTabItems)
   },
   closeTab (state, i) {
+    state.lastCloseTab = state.mainTabItems[i]
     state.mainTabItems.splice(i, 1)
     F.saveToLocal('$mainTabItems', state.mainTabItems)
   },
   changeTab (state, tabs) {
+    if (state.mainTabItems.length < tabs.length) {
+      for (let i = 0; i < state.mainTabItems.length; ++i) {
+        let tab = state.mainTabItems[i]
+        if (!tabs.find(t => t.to === tab.to)) {
+          state.lastCloseTab = tab
+          break
+        }
+      }
+    }
     state.mainTabItems = tabs
+    F.saveToLocal('$mainTabItems', state.mainTabItems)
   },
   moveTab (state, {from, to}) {
     let insertIndex = from > to ? to + 1 : to

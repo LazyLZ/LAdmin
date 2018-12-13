@@ -1,6 +1,6 @@
-import Main from '../components/Main/main'
-import helloWorld from '../views/testPage/helloWorld'
-import testRouter1 from '../views/testPage/testRouter1'
+import Main from '../views/main'
+// import helloWorld from '../views/testPage/helloWorld'
+// import testRouter1 from '../views/testPage/testRouter1'
 import login from '../views/Login/login'
 import notFound from '../views/Error/notFound'
 import accessDeny from '../views/Error/accessDeny'
@@ -65,7 +65,7 @@ export default [
       {
         path: 'home',
         name: 'Home',
-        component: helloWorld,
+        component: import('../views/testPage/helloWorld'),
         meta: {
           label: '首页',
           subText: '',
@@ -109,7 +109,7 @@ export default [
       {
         path: 'test-router-1',
         name: 'TestRouter1',
-        component: testRouter1,
+        component: import('../views/testPage/testRouter1'),
         meta: {
           label: '固定页面',
           // persistent: true
@@ -141,6 +141,7 @@ export default [
                 meta: {
                   label: '违章事件详情',
                   subText: 'query.id',
+                  cacheKey: 'query.id',
                   beforeCloseName: 'defaultBeforeClose'
                 }
               }
